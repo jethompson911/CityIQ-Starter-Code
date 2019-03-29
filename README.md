@@ -1,5 +1,9 @@
 
 
+NOTE THIS REPOSITORY HAS BEEN MOVED TO https://github.com/CityIQ/StarterCode
+
+============================================================================================================
+
 This sample code uses node.js and node-fetch  
 The sample code runs in the command line and returns data the user has access to.
 
