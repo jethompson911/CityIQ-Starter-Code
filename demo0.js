@@ -54,7 +54,7 @@ async function demo0 (){
     
     /* return all parking in events from the last 12 hours related to the camera asset found above
     timecalc is a function declared in cityiq.js. */
-    let events = await ciq.events(credentials.parking, assets[0].assetUid,'assetUid','PKIN',ciq.timecalc(1))
+    let events = await ciq.events(credentials.parking, assets[0].assetUid,'assetUid','PKIN',ciq.timecalc(12))
     console.log(events[0])
    
 }

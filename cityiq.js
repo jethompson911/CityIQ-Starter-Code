@@ -1,7 +1,7 @@
 // node fetch is required to establish requests
 const fetch = require("node-fetch")
 // btoa function is required to encode username and password
-const btoa = str => new Buffer(str).toString('base64') 
+const btoa = str => new Buffer.from(str).toString('base64') 
 
 // requests function formats requests via node.js
 function request(url, headers, body) {

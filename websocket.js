@@ -17,7 +17,7 @@ the following declaration establishes your credentials */
 
 const fetch = require('node-fetch')
 const WebSocket = require('ws')
-const btoa = str => new Buffer(str).toString('base64')
+const btoa = str => new Buffer.from(str).toString('base64')
 
 // requests function formats requests via node.js
 function request(url, headers, body) {
@@ -34,7 +34,7 @@ function request(url, headers, body) {
 async function listen() {   
   
   // REST requests necessary for getting the token - first layer of authentication
-  let result = (await request(credentials.uaa+'?grant_type=client_credentials',{authorization:'Basic '+btoa(credentials.developer)}))
+  let result = (await request(credentials.uaa+'oauth/token?grant_type=client_credentials',{authorization:'Basic '+btoa(credentials.developer)}))
   let token = result.access_token
   
   // REST request for metadata
