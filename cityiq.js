@@ -22,7 +22,7 @@ module.exports=async function(tenant) {
        and username and password. 
        While this request is a basic auth request, the client token will be 
        used for bearer authentication. */
-    let bearer = (await request(tenant.uaa+'?grant_type=client_credentials', {authorization: 'Basic '+btoa(tenant.developer)}))
+    let bearer = (await request(tenant.uaa+'/oauth/token?grant_type=client_credentials', {authorization: 'Basic '+btoa(tenant.developer)}))
     let client_token = bearer.access_token
 
     // this function searches assets by their content variables (i.e. assetType, eventTypes, mediaTypes, coordinates etc)
@@ -44,19 +44,19 @@ module.exports=async function(tenant) {
          * Default is to search assets by assetUid */
         if (eventTypes.indexOf(type) >= 0) {
           console.debug('querying assets by eventTypes')
-          query = 'metadata/assets/search?bbox='+tenant.bbox+'&q=eventTypes:'+type
+          query = '/assets/search?bbox='+tenant.bbox+'&q=eventTypes:'+type
         } else if (mediaTypes.indexOf(type) >= 0) {
           console.debug('querying assets by mediaType')
-          query = 'metadata/assets/search?bbox='+tenant.bbox+'&q=mediaType:'+type
+          query = '/assets/search?bbox='+tenant.bbox+'&q=mediaType:'+type
         } else if (assetTypes.indexOf(type) >= 0) {
           console.debug('querying assets by assetType')
-          query = 'metadata/assets/search?bbox='+tenant.bbox+'&q=assetType:'+type
+          query = '/assets/search?bbox='+tenant.bbox+'&q=assetType:'+type
         } else if ((id !== undefined) && (type === 'children')) {
           console.debug('querying for children by parentAssetUid')
-          query = 'metadata/assets/'+id+'/subAssets'
+          query = '/assets/'+id+'/subAssets'
         } else {
           console.debug('querying by assetUid')
-          query = 'metadata/assets/'+type 
+          query = '/assets/'+type 
         }
 
         headers = {authorization: 'Bearer '+client_token, 'predix-zone-id': zone} 
@@ -81,13 +81,13 @@ module.exports=async function(tenant) {
       
       if (type === 'bbox') {
         console.debug('querying locations by  bbox')
-        query = 'metadata/locations/search?bbox='+coord
+        query = '/locations/search?bbox='+coord
       } else if (locationTypes.indexOf(type) >= 0) {
         console.debug('querying locations by locationType')
-        query = 'metadata/locations/search?bbox='+coord+'&q=locationType:'+type  
+        query = '/locations/search?bbox='+coord+'&q=locationType:'+type  
       } else {
         console.debug('querying locations by locationUid')
-        query = 'metadata/locations/'+type
+        query = '/locations/'+type
       }
 
       headers = {authorization: 'Bearer '+client_token, 'predix-zone-id': zone} 
@@ -109,31 +109,31 @@ module.exports=async function(tenant) {
       if (eventGroup.indexOf(type) <= 3) {
         if (idType == 'assetUid') {
           console.debug('querying events by asset, eventTypes and time span')
-          query = 'assets/'+id+'/events?eventType='+type
+          query = '/assets/'+id+'/events?eventType='+type
         } else if (idType == 'locationUid') {
           console.debug('querying events by locationUid, eventType, and time span')
-          query = 'locations/'+id+'/events?eventType='+type
+          query = '/locations/'+id+'/events?eventType='+type
         } else {
           console.debug('querying events by location, eventType and time span')
-          query = 'locations/events?eventTypes='+type+'&bbox='+tenant.bbox
+          query = '/locations/events?eventTypes='+type+'&bbox='+tenant.bbox
         }
       } else if (eventGroup.indexOf(type) >= 4) {
         console.debug ('querying events by asset, eventTypes and time span')
-        query = 'assets/'+id+'/events?eventTypes='+type
+        query = '/assets/'+id+'/events?eventTypes='+type
       } else if (mediaGroup.indexOf(type) >= 0) {
         if (idType == 'assetUid') {
           console.debug('querying events by asset, assetType and time span')
-          query = 'assets/'+id+'/events?assetType='+type
+          query = '/assets/'+id+'/events?assetType='+type
         } else if (idType == 'locationUid') {
           console.debug('querying events by locationUid, assetType, and time span')
-          query = 'locations/'+id+'/events?assetType='+type
+          query = '/locations/'+id+'/events?assetType='+type
         } else {
           console.debug('querying events by location, assetType and time span')
-          query = 'locations/events?assetType='+type+'&bbox='+coord
+          query = '/locations/events?assetType='+type+'&bbox='+coord
         }
       } else {
         console.debug('querying assets by externalRefId')
-        query = 'assets/'+id+'/events?externalRefId='+type
+        query = '/assets/'+id+'/events?externalRefId='+type
       }
 
       span = '&startTime='+start+'&endTime='+ ((typeof(stop)=='undefined') ? '9999999999999' : stop)
