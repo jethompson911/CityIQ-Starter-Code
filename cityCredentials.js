@@ -9,6 +9,7 @@ const loginCredentials = {
         environment: '{your-Environment-PredixZoneID}',
         pedestrian: '{your-Pedestrian-PredixZoneID}',
         traffic: '{your-Traffic-PredixZoneID}',
+        bicycle: '{your-Bicycle-PredixZoneId',
         bbox: '{lat}:{long},{lat}:{long}'
     }
 

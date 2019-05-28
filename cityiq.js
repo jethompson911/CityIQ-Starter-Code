@@ -35,7 +35,7 @@ module.exports=async function(tenant) {
         */ 
 
         let query, headers, queryURL
-        let eventTypes = ['PKIN','PKOUT','PEDEVT','TFEVT','HUMIDITY','PRESSURE','TEMPERATURE','METROLOGY','TIMESERIES']
+        let eventTypes = ['PKIN','PKOUT','PEDEVT','TFEVT','BICYCLE','HUMIDITY','PRESSURE','TEMPERATURE','METROLOGY','TIMESERIES']
         let mediaTypes = ['IMAGE','VIDEO']
         let assetTypes = ['CAMERA','ENV_SENSOR','NODE','EM_SENSOR']
         
@@ -102,11 +102,11 @@ module.exports=async function(tenant) {
       
       let query, headers, queryURL, span
 
-      let eventGroup = ['PKIN','PKOUT','PEDEVT','TFEVT','HUMIDITY','TEMPERATURE', 'PRESSURE', 'METROLOGY', 'TIMESERIES']
+      let eventGroup = ['PKIN','PKOUT','PEDEVT','TFEVT','BICYCLE','HUMIDITY','TEMPERATURE', 'PRESSURE', 'METROLOGY', 'TIMESERIES']
       let mediaGroup = ['CAMERA','ENV_SENSOR','EM_SENSOR']
 
 
-      if (eventGroup.indexOf(type) <= 3) {
+      if (eventGroup.indexOf(type) <= 4) {
         if (idType == 'assetUid') {
           console.debug('querying events by asset, eventTypes and time span')
           query = '/assets/'+id+'/events?eventType='+type
@@ -117,7 +117,7 @@ module.exports=async function(tenant) {
           console.debug('querying events by location, eventType and time span')
           query = '/locations/events?eventTypes='+type+'&bbox='+tenant.bbox
         }
-      } else if (eventGroup.indexOf(type) >= 4) {
+      } else if (eventGroup.indexOf(type) >= 5) {
         console.debug ('querying events by asset, eventTypes and time span')
         query = '/assets/'+id+'/events?eventTypes='+type
       } else if (mediaGroup.indexOf(type) >= 0) {
